@@ -40,11 +40,12 @@ def new(request):
 @login_required
 def insert(request):
     title = request.POST.get('title')
+    number = request.POST.get('number')
     author = request.POST.get('author')
     publisher = request.POST.get('publisher')
     location = request.POST.get('location')
     
-    book = Book(title=title, author=author, publisher=publisher, location=location,)
+    book = Book(title=title, number=number, author=author, publisher=publisher, location=location,)
     book.save()
     return render(request, 'search/insert.html')
 
