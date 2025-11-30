@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h3 class="mb-4">도서검색 결과</h3>
+    <p>※ 도서명을 클릭하시면 책 정보로 연결됩니다.</p>
+    {% if book_list %}
+    <table class="table text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>도서명</th>
+                <th>권수</th>
+                <th>작가</th>
+                <th>출판사</th>
+                <th>진열위치</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in book_list %}
+            <tr>
+                <td>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'search:edit' book.id %}">
+                    {% else %}
+                    <a href="https://book.naver.com/search/search.nhn?sm=sta_hty.book&sug=&where=nexearch&query={{ book.title }}">
+                    {% endif %}    
+                    {{ book.title }}</a>
+                </td>
+                <td>{{ book.number }}권</td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.publisher }}</td>
+                <td>{{ book.location }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>검색 결과가 없습니다.</p>
+    {% endif %}
+    
+    <div class="item pt-3 mb-3">               
+        <a href="{% url 'search:gotomain' %}" class="btn btn-dark">검색창으로</a>
+    </div>
+</div>
+
+<style>
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    @media (max-width: 600px) {
+        table {
+            font-size: 8px;
+        }
+    }
+</style>
+{% endblock %}

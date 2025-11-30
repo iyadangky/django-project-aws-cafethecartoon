@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <h3 class="pt-4 mb-3">도서입력</h3>
+
+    <form method="POST" action="{% url 'search:insert' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+
+    <div>
+        <input type="text" name="title" id="title" placeholder="도서명" class="form-control mb-3">
+    </div>
+
+    <div>
+        <input type="text" name="number" id="number" placeholder="권수" class="form-control mb-3">
+    </div>
+
+    <div>
+        <input type="text" name="author" id="author" placeholder="작가" class="form-control mb-3">
+    </div>
+
+    <div>
+        <input type="text" name="publisher" id="publisher" placeholder="출판사" class="form-control mb-3">
+    </div>
+
+    <div>
+        <input type="text" name="location" id="location" placeholder="진열위치" class="form-control mb-3">
+    </div>
+
+    <div class="pt-4 mb-3">               
+        <button type="submit" class="btn btn-primary">입력버튼</button>
+        <a href="{% url 'search:gotomain' %}" class="btn btn-primary ms-1">검색창으로</a>
+    </div>
+            
+    </form>
+</div>
+
+
+
+{% endblock %}

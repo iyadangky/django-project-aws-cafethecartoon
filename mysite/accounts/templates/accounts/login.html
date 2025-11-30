@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+        {% if error %}
+            <div class="alert alert-danger mt-3">
+            {{ error }}
+            </div>
+        {% endif %}
+
+        <h1>Login</h1>
+        <form method="post" action="{% url 'accounts:login' %}">
+            {% csrf_token %}
+
+            <div class="mb-3 col-md-6">
+                <label class="form-label" for="username">아이디</label>
+                <input class="form-control" id="username" type="text" name="username" placeholder="아이디">
+            </div>
+
+            <div class="mb-3 col-md-6">
+                <label class="form-label" for="password">비밀번호</label>
+                <input class="form-control" id="password" type="password" name="password" placeholder="비밀번호">
+            </div>
+
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">로그인</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

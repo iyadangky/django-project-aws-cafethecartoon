@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <h3 class="pt-4 mb-3">도서수정</h3>
+
+    <form method="POST" action="{% url 'search:update' book.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+
+    <div>
+        <label class="form-label" for="title">도서명</label>
+        <input type="text" name="title" id="title" class="form-control mb-3" value="{{book.title}}">
+    </div>
+
+    <div>
+        <label class="form-label" for="number">권수</label>
+        <input type="text" name="number" id="number" class="form-control mb-3" value="{{book.number}}">
+    </div>
+
+    <div>
+        <label class="form-label" for="author">작가</label>
+        <input type="text" name="author" id="author" class="form-control mb-3" value="{{book.author}}">
+    </div>
+
+    <div>
+        <label class="form-label" for="publisher">출판사</label>
+        <input type="text" name="publisher" id="publisher" class="form-control mb-3" value="{{book.publisher}}">
+    </div>
+
+    <div>
+        <label class="form-label" for="location">진열위치</label>
+        <input type="text" name="location" id="location" class="form-control mb-3" value="{{book.location}}">
+    </div>
+
+    <div class="pt-4 mb-3">               
+        <button type="submit" class="btn btn-primary">수정하기</button>
+        <a href="{% url 'search:delete' book.id %}" class="btn btn-primary ms-1">삭제하기</a>
+        <a href="{% url 'search:gotomain' %}" class="btn btn-primary ms-1">검색창으로</a>
+    </div>
+            
+    </form>
+</div>
+
+
+
+{% endblock %}
