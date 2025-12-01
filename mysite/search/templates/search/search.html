@@ -11,7 +11,7 @@
         <form method="GET" action="{% url 'search:search' %}" enctype="multipart/form-data">
         {% csrf_token %}
             <div class="container2">
-                <div class="item"><input class="form-control rounded-0 rounded-start border border-dark" style="width:280px" type="search" placeholder="&#xf002; &nbsp; 도서 또는 작가를 빈칸 없이" name="q" value="{{q}}"></div>
+                <div class="item"><input class="form-control rounded-0 rounded-start border border-dark" style="width:280px" type="search" placeholder="&#xf002; &nbsp; 도서 또는 작가명을 입력하세요." name="q" value="{{q}}" autofocus></div>
                 <div class="item"><button type="submit" class="btn btn-dark rounded-0 rounded-end border border-dark">찾기</button></div>
             </div>
             <div class="nemo2"></div>

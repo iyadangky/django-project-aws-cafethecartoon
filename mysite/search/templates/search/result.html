@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
 {% block content %}
 <div class="container">
     <h3 class="mb-4">도서검색 결과</h3>
     <p>※ 도서명을 클릭하시면 책 정보로 연결됩니다.</p>
+    
     {% if book_list %}
     <table class="table text-center">
         <thead class="table-dark">
@@ -25,7 +25,7 @@
                     <a href="{% url 'search:edit' book.id %}">
                     {% else %}
                     <a href="https://book.naver.com/search/search.nhn?sm=sta_hty.book&sug=&where=nexearch&query={{ book.title }}">
-                    {% endif %}    
+                    {% endif %}    
                     {{ book.title }}</a>
                 </td>
                 <td>{{ book.number }}권</td>
@@ -40,10 +40,17 @@
         <p>검색 결과가 없습니다.</p>
     {% endif %}
     
-    <div class="item pt-3 mb-3">               
-        <a href="{% url 'search:gotomain' %}" class="btn btn-dark">검색창으로</a>
+    <div class="item pt-3 mb-3">
+        <a href="{% url 'search:gotomain' %}" class="btn btn-dark" id="autofocus-link">검색창으로</a>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 페이지 로딩 완료 후 ID가 'autofocus-link'인 요소에 포커스를 적용합니다.
+        document.getElementById('autofocus-link').focus();
+    });
+</script>
 
 <style>
     .container {

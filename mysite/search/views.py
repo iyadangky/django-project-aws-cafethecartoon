@@ -1,3 +1,5 @@
+from django.db.models import Value # <-- 이 줄을 추가합니다.
+from django.db.models.functions import Replace # <-- Replace만 functions에서 임포트합니다.
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.core.paginator import Paginator
@@ -16,17 +18,29 @@ def gotomain(request):
     return render(request, 'search/search.html')
 
 def search(request):
-    book_list = Book.objects.all().order_by('title')
+    book_list = Book.objects.all().order_by('title') 
     q = request.GET.get('q', "") 
+    
     if q:
-        book_list = book_list.filter(Q(title__icontains=q) | Q(author__icontains=q)).distinct()
-        context = {'book_list' : book_list,}
-        return render(request, 'search/result.html', context)
-    else:
-        book_list = Book.objects.all().order_by('title')
-        context = {'book_list' : book_list,}
-        return render(request, 'search/result.html', context)
-
+        # 1. 사용자가 입력한 검색어에서 띄어쓰기를 제거합니다.
+        cleaned_q = q.replace(' ', '')
+        
+        # 2. 쿼리셋에 띄어쓰기가 제거된 임시 필드를 추가합니다 (DB 함수 사용).
+        #    Replace('필드명', Value('찾을 문자'), Value('대체할 문자'))
+        book_list = book_list.annotate(
+            cleaned_title=Replace('title', Value(' '), Value('')),
+            cleaned_author=Replace('author', Value(' '), Value('')),
+        )
+        
+        # 3. 띄어쓰기가 제거된 임시 필드를 기준으로 필터링합니다.
+        book_list = book_list.filter(
+            Q(cleaned_title__icontains=cleaned_q) | 
+            Q(cleaned_author__icontains=cleaned_q)
+        ).distinct()
+        
+    context = {'book_list' : book_list,}
+    return render(request, 'search/result.html', context)
+    
 @login_required
 def orderby(request):
         book_list = Book.objects.order_by('location')
@@ -39,14 +53,16 @@ def new(request):
 
 @login_required
 def insert(request):
-    title = request.POST.get('title')
-    number = request.POST.get('number')
-    author = request.POST.get('author')
-    publisher = request.POST.get('publisher')
-    location = request.POST.get('location')
-    
-    book = Book(title=title, number=number, author=author, publisher=publisher, location=location,)
-    book.save()
+    if request.method == 'POST':
+       title = request.POST.get('title')
+       number = request.POST.get('number')
+       author = request.POST.get('author')
+       publisher = request.POST.get('publisher')
+       location = request.POST.get('location')
+        
+       book = Book(title=title, number=number, author=author, publisher=publisher, location=location,)
+       book.save()
+       return redirect('search:new')
     return render(request, 'search/insert.html')
 
 @login_required
