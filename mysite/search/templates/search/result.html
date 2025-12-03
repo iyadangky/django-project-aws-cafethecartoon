@@ -24,8 +24,8 @@
                     {% if user.is_authenticated %}
                     <a href="{% url 'search:edit' book.id %}">
                     {% else %}
-                    <a href="https://book.naver.com/search/search.nhn?sm=sta_hty.book&sug=&where=nexearch&query={{ book.title }}">
-                    {% endif %}    
+                    <a href="https://search.shopping.naver.com/book/search?bookTabType=ALL&pageIndex=1&pageSize=40&query={{ book.title }}&sort=REL">
+                    {% endif %}
                     {{ book.title }}</a>
                 </td>
                 <td>{{ book.number }}권</td>
