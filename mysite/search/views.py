@@ -12,7 +12,9 @@ import csv
 # Create your views here.
 
 def landing(request):
-    return HttpResponse("Cartoon Landing Page!")
+    # 기존: return HttpResponse("Cartoon Landing Page!")
+    # 변경: 'search/landing.html' 템플릿을 렌더링합니다.
+    return render(request, 'search/landing.html')
 
 def gotomain(request):
     return render(request, 'search/search.html')
